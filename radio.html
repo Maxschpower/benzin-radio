@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="ru">
 <head>
     <title>Radio Benzin</title>
     <meta charset="utf-8">
@@ -10,12 +10,8 @@
 <body>
 <audio id="radio-audio"></audio>
 <div id="radio-info"></div>
-<div id="asd">
-    <div class="icon">
-        <img src="//cdn.shopify.com/s/files/1/0337/2299/0728/t/6/assets/img-radio.png?v=77286706284138108561644874875">
-    </div>
-    <span class="title">Radio</span>
-</div>
+<input type="button" id="asd" value="Включить радио">
+<input type="range" min="0" max="100" value="75" id="radio-volume">
 <script type="module">
     (async function () {
         let audio = null;
@@ -121,18 +117,8 @@
             audio.removeEventListener('canplay', handleCanPlay);
         });
 
-        $('#dialog-radio-volume').on("input", function () {
+        $('#radio-volume').on("input", function () {
             audio.volume = this.value / 100;
-        });
-
-        $('#dialog-radio-switch input').on('change', function () {
-            if (this.checked) {
-                $('#dialog-radio-background > video').hide();
-                $('#dialog-radio-background > img').show();
-            } else {
-                $('#dialog-radio-background > video').show();
-                $('#dialog-radio-background > img').hide();
-            }
         });
 
         setInterval(() => {
