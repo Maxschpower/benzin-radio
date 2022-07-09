@@ -95,7 +95,7 @@
         }
 
         async function initRadio() {
-            songsResponse = await fetch('http://127.0.0.1:3000/songs');
+            songsResponse = await fetch('https://benzin-radio.herokuapp.com/songs');
             songs = await songsResponse.json();
             totalLength = songs.reduce((currentLength, song) => song.Duration + currentLength, 0);
             audio.src = songs[radioIndex].Url;
