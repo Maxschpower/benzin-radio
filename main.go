@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"os"
 	"path"
 	"path/filepath"
 )
@@ -20,8 +21,8 @@ func main() {
 	})
 
 	r.GET("/songs", getSongs)
-
-	err := r.Run(":3000")
+	port := os.Getenv("PORT")
+	err := r.Run(":" + port)
 	if err != nil {
 		panic(err)
 	}
