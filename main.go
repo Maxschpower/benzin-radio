@@ -29,5 +29,7 @@ func main() {
 }
 
 func getSongs(ctx *gin.Context) {
+	ctx.Writer.Header().Set("Content-Type", "application/json")
+	ctx.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 	ctx.IndentedJSON(http.StatusOK, Songs)
 }
