@@ -5,7 +5,10 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "webpack -p"
+    "heroku-postbuild": "webpack"
+  },
+  "engines": {
+    "node": "16.x"
   },
   "author": "Maxsch",
   "dependencies": {
