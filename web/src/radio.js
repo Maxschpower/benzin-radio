@@ -1,8 +1,10 @@
 (async function () {
     let audio = null;
     let currentSong
+    let audioLoaded = false
 
     function updateMetadata() {
+        if (!audioLoaded) return
         if (audio && !audio.paused) {
             document.querySelector('#radio-info').innerHTML = currentSong.song.title + '<br>' + toMinutes(Math.round(audio.currentTime)) + '/' + toMinutes(Math.round(audio.duration));
         } else if (audio) {
