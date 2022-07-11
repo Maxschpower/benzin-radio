@@ -1,7 +1,7 @@
 package routing
 
 import (
-	"benzin-radio/domain"
+	"benzin-x-ogonek/server/domain"
 	"log"
 	"time"
 )

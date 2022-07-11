@@ -1,7 +1,7 @@
 package main
 
 import (
-	"benzin-radio/routing"
+	"benzin-x-ogonek/server/routing"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"
@@ -16,7 +16,7 @@ func main() {
 		ext := filepath.Ext(file)
 		if file == "" || ext == "" {
 			//c.Writer.Header().Set("Access-Control-Allow-Origin", "http://127.0.0.1:3000")
-			c.File("./radio.html")
+			c.File("./web/radio.html")
 		} else {
 			c.File("./" + path.Join(dir, file))
 		}
@@ -24,7 +24,7 @@ func main() {
 
 	r.GET("/radio", getCurrentSong)
 	port := os.Getenv("PORT")
-	err := r.Run(":" + port)
+	err := r.Run(":3000" + port)
 	if err != nil {
 		panic(err)
 	}

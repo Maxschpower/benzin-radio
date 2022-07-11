@@ -1,4 +1,4 @@
-module benzin-radio
+module benzin-x-ogonek
 
 go 1.18
 
