@@ -1,13 +1,10 @@
 (async function () {
     let audio = null;
-    let totalLength = 0;
-    let radioIndex = 0;
-    let songsResponse
-    let songs
+    let currentSong
 
     function updateMetadata() {
         if (audio && !audio.paused) {
-            document.querySelector('#radio-info').innerHTML = songs[radioIndex].Title + '<br>' + toMinutes(Math.round(audio.currentTime)) + '/' + toMinutes(Math.round(audio.duration));
+            document.querySelector('#radio-info').innerHTML = currentSong.song.title + '<br>' + toMinutes(Math.round(audio.currentTime)) + '/' + toMinutes(Math.round(audio.duration));
         } else if (audio) {
             try {
                 audio.play();
@@ -28,38 +25,10 @@
         return stringPadLeft(minutes, '0', 2) + ':' + stringPadLeft(seconds, '0', 2);
     }
 
-    function getCurrentPosition() {
-        let beginning = Date.parse(new Date("2022-02-01T00:00:00.000+00:00").toLocaleString('en-US', {timeZone: 'UTC'})) / 1000;
-        let now = Date.parse(new Date().toLocaleString('en-US', {timeZone: 'UTC'})) / 1000;
-
-        let difference = now - beginning;
-        let seekToPosition = difference % totalLength;
-        console.log(totalLength)
-
-        let currentPosition = 0;
-        let timestamp = 0;
-        let song = null;
-        for (let songIndex in songs) {
-            let currentSong = songs[songIndex];
-            if (currentPosition + currentSong.Duration <= seekToPosition) {
-                currentPosition += currentSong.Duration;
-            } else {
-                song = currentSong;
-                timestamp = seekToPosition - currentPosition;
-                radioIndex = songIndex;
-                break;
-            }
-        }
-        return {song, timestamp}
-    }
-
-    function handleEnded() {
-        radioIndex = parseInt(radioIndex) + 1;
-        if (radioIndex >= songs.length)
-            radioIndex = 0;
-
+    async function handleEnded() {
+        currentSong = await requestNewSong();
         audio.pause();
-        audio.src = songs[radioIndex].Url;
+        audio.src = currentSong.song.url;
         console.log('Source changed.');
         audio.load();
     }
@@ -71,19 +40,23 @@
     function handleCanPlay() {
         if (audio.paused) {
             console.log('Audio loaded.');
-            let position = getCurrentPosition();
-            if (audio.currentTime != position.timestamp) {
-                audio.currentTime = position.timestamp;
+            let position = currentSong.timestamp;
+            if (audio.currentTime != position) {
+                audio.currentTime = position;
             }
             audio.play();
         }
     }
 
+    async function requestNewSong() {
+        let song = await fetch('https://benzin-radio.herokuapp.com//radio');
+        return song.json()
+    }
+
     async function initRadio() {
-        songsResponse = await fetch('https://benzin-radio.herokuapp.com/songs');
-        songs = await songsResponse.json();
-        totalLength = songs.reduce((currentLength, song) => song.Duration + currentLength, 0);
-        audio.src = songs[radioIndex].Url;
+        currentSong = await requestNewSong();
+
+        audio.src = currentSong.song.url;
         audio.load();
 
         audio.addEventListener('loadstart', handleLoadStart);

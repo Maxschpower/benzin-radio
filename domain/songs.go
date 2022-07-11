@@ -1,8 +1,22 @@
-package main
+package domain
 
 type Song struct {
-	Title, Url string
-	Duration   int
+	Title    string `json:"title"`
+	Url      string `json:"url"`
+	Duration int    `json:"duration"`
+}
+
+type ApiSong struct {
+	Song      `json:"song"`
+	Timestamp int `json:"timestamp"`
+}
+
+func GetTotalTime() int64 {
+	var total int64
+	for _, song := range Songs {
+		total += int64(song.Duration)
+	}
+	return total
 }
 
 var Songs = []Song{
