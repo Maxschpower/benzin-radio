@@ -24,7 +24,7 @@ func main() {
 
 	r.GET("/radio", getCurrentSong)
 	port := os.Getenv("PORT")
-	err := r.Run(":3000" + port)
+	err := r.Run(":" + port)
 	if err != nil {
 		panic(err)
 	}
