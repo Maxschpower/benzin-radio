@@ -53,20 +53,21 @@
     async function requestNewSong() {
         let song = await fetch('https://benzin-radio.herokuapp.com/radio');
         // let song = await fetch('http://127.0.0.1:3000/radio');
-        return song.json()
+        return await song.json()
     }
 
     async function initRadio() {
-        currentSong = await requestNewSong();
+        await requestNewSong().then((song) => {
+            currentSong = song
+            audio.src = currentSong.song.url;
+            audio.load();
 
-        audio.src = currentSong.song.url;
-        audio.load();
+            audioLoaded = true
 
-        audioLoaded = true
-
-        audio.addEventListener('loadstart', handleLoadStart);
-        audio.addEventListener('ended', handleEnded);
-        audio.addEventListener('canplay', handleCanPlay);
+            audio.addEventListener('loadstart', handleLoadStart);
+            audio.addEventListener('ended', handleEnded);
+            audio.addEventListener('canplay', handleCanPlay);
+        });
     }
 
     $('#asd').on('click', () => {
@@ -91,4 +92,5 @@
     // setup
     audio = document.querySelector('#radio-audio');
     audio.volume = 0.75;
+    audio.load();
 })();
