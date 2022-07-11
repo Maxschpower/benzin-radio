@@ -49,8 +49,8 @@
     }
 
     async function requestNewSong() {
-        // let song = await fetch('https://benzin-radio.herokuapp.com/radio');
-        let song = await fetch('http://127.0.0.1:3000/radio');
+        let song = await fetch('https://benzin-radio.herokuapp.com/radio');
+        // let song = await fetch('http://127.0.0.1:3000/radio');
         return song.json()
     }
 
