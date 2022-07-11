@@ -62,6 +62,8 @@
         audio.src = currentSong.song.url;
         audio.load();
 
+        audioLoaded = true
+
         audio.addEventListener('loadstart', handleLoadStart);
         audio.addEventListener('ended', handleEnded);
         audio.addEventListener('canplay', handleCanPlay);
