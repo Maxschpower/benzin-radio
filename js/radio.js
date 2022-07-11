@@ -49,7 +49,7 @@
     }
 
     async function requestNewSong() {
-        let song = await fetch('https://benzin-radio.herokuapp.com//radio');
+        let song = await fetch('https://benzin-radio.herokuapp.com/radio');
         return song.json()
     }
 

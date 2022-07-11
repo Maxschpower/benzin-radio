@@ -15,7 +15,7 @@ func main() {
 		dir, file := path.Split(c.Request.RequestURI)
 		ext := filepath.Ext(file)
 		if file == "" || ext == "" {
-			c.Writer.Header().Set("Access-Control-Allow-Origin", "http://127.0.0.1:3000")
+			//c.Writer.Header().Set("Access-Control-Allow-Origin", "http://127.0.0.1:3000")
 			c.File("./radio.html")
 		} else {
 			c.File("./" + path.Join(dir, file))
@@ -33,7 +33,7 @@ func main() {
 func getCurrentSong(ctx *gin.Context) {
 	var song = routing.GetCurrentSong()
 
-	ctx.Writer.Header().Set("Content-Type", "application/json")
-	ctx.Writer.Header().Set("Access-Control-Allow-Origin", "http://127.0.0.1:3000")
+	//ctx.Writer.Header().Set("Content-Type", "application/json")
+	//ctx.Writer.Header().Set("Access-Control-Allow-Origin", "http://127.0.0.1:3000")
 	ctx.IndentedJSON(http.StatusOK, song)
 }
